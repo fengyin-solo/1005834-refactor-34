@@ -1,4 +1,4 @@
-import type { EntryRow } from './types'
+import type { EntryRow, MaintenanceRecord } from './types'
 
 // 示例数据：首次打开时播种，之后浏览器里的改动优先，重置才会回到这份。
 export const SEED_ROWS: Record<string, EntryRow[]> = {
@@ -669,27 +669,27 @@ export const SEED_ROWS: Record<string, EntryRow[]> = {
       "pending": true,
       "abnormal": false,
       "设备编号": "DRAI-0001",
-      "设备名称": "排水设备台账样例1",
-      "设备型号": "排水设备台账样例1",
-      "所属泵站": "排水设备台账样例1",
-      "购置日期": "2026-09-01",
-      "保养周期": "排水设备台账样例1",
-      "上次保养日": "排水设备台账样例1",
-      "设备状态": "排水设备台账样例1"
+      "设备名称": "潜水排污泵",
+      "设备型号": "WQ-200",
+      "所属泵站": "城东一站",
+      "购置日期": "2025-06-01",
+      "保养周期": "季度",
+      "上次保养日": "2025-12-01",
+      "设备状态": "待保养"
     },
     {
       "id": 2,
       "status": "运行中",
       "pending": true,
-      "abnormal": true,
+      "abnormal": false,
       "设备编号": "DRAI-0002",
-      "设备名称": "排水设备台账样例2",
-      "设备型号": "排水设备台账样例2",
-      "所属泵站": "排水设备台账样例2",
-      "购置日期": "2026-09-02",
-      "保养周期": "排水设备台账样例2",
-      "上次保养日": "排水设备台账样例2",
-      "设备状态": "排水设备台账样例2"
+      "设备名称": "潜水混流泵",
+      "设备型号": "QH-400",
+      "所属泵站": "城东二站",
+      "购置日期": "2025-03-15",
+      "保养周期": "180天",
+      "上次保养日": "2026-03-01",
+      "设备状态": "运行中"
     },
     {
       "id": 3,
@@ -697,13 +697,13 @@ export const SEED_ROWS: Record<string, EntryRow[]> = {
       "pending": false,
       "abnormal": false,
       "设备编号": "DRAI-0003",
-      "设备名称": "排水设备台账样例3",
-      "设备型号": "排水设备台账样例3",
-      "所属泵站": "排水设备台账样例3",
-      "购置日期": "2026-09-03",
-      "保养周期": "排水设备台账样例3",
-      "上次保养日": "排水设备台账样例3",
-      "设备状态": "排水设备台账样例3"
+      "设备名称": "移动式柴油泵",
+      "设备型号": "DCP-150",
+      "所属泵站": "城西泵站",
+      "购置日期": "2024-12-10",
+      "保养周期": "半年",
+      "上次保养日": "2026-09-20",
+      "设备状态": "已保养"
     }
   ],
   "cctvinspect": [
@@ -795,3 +795,13 @@ export const SEED_ROWS: Record<string, EntryRow[]> = {
     }
   ],
 }
+
+// 历史保养记录样例：DRAI-0001 的最近一次保养（2026-07-05）比台账上登记的「上次保养日」更新，
+// 回填时以这条记录为准，用于演示「与历史保养记录冲突，以最近一次保养日为准」。
+export const SEED_MAINTENANCE_RECORDS: MaintenanceRecord[] = [
+  { id: 1, equipmentCode: "DRAI-0001", maintenanceDate: "2026-01-05", source: "季度保养单" },
+  { id: 2, equipmentCode: "DRAI-0001", maintenanceDate: "2026-04-06", source: "季度保养单" },
+  { id: 3, equipmentCode: "DRAI-0001", maintenanceDate: "2026-07-05", source: "汛期专项保养单" },
+  { id: 4, equipmentCode: "DRAI-0002", maintenanceDate: "2025-09-01", source: "半年保养单" },
+  { id: 5, equipmentCode: "DRAI-0002", maintenanceDate: "2026-03-01", source: "半年保养单" },
+]

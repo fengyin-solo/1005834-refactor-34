@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "lib": ["ES2020", "DOM"],
+    "skipLibCheck": true,
+    "outDir": "../.verify-build",
+    "baseUrl": "..",
+    "paths": { "@/*": ["src/*"] },
+    "types": ["node"]
+  },
+  "include": [
+    "./verify-maintenance.ts",
+    "../src/domain/**/*.ts",
+    "../src/data/**/*.ts",
+    "../src/api/local-service.ts"
+  ]
+}
