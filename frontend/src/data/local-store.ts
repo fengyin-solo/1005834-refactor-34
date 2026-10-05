@@ -20,7 +20,19 @@ function readStorage(): Record<string, EntryRow[]> {
   }
   try {
     const parsed = JSON.parse(raw) as Record<string, EntryRow[]>
-    return { ...fallback, ...parsed }
+    // 条目级合并：浏览器里改过的记录优先，新种子（或新增设备）按 id 补进来。
+    const merged: Record<string, EntryRow[]> = {}
+    for (const key of new Set([...Object.keys(fallback), ...Object.keys(parsed)])) {
+      const seedRows = fallback[key] ?? []
+      const storedRows = Array.isArray(parsed[key]) ? parsed[key] : []
+      const storedById = new Map(storedRows.map((row) => [Number(row.id), row]))
+      const seedIds = new Set(seedRows.map((row) => Number(row.id)))
+      merged[key] = [
+        ...seedRows.map((row) => storedById.get(Number(row.id)) ?? row),
+        ...storedRows.filter((row) => !seedIds.has(Number(row.id))),
+      ]
+    }
+    return merged
   } catch {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(fallback))
     return fallback
